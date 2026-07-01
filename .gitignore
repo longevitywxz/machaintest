@@ -1,5 +1,7 @@
 data/raw/*.txt
 data/raw/*.zip
+assignment.pdf
+assignment_text.txt
 tmp/
 __pycache__/
 .venv/
