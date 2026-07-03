@@ -73,6 +73,10 @@ def main() -> None:
 
     story: list = []
     add_paragraph(story, "家庭电力消耗多变量时间序列预测实验报告", title)
+    add_paragraph(story, "作者信息", h1)
+    add_paragraph(story, "姓名：魏宪正；学号：20255227057；团队人数：1 人。", body)
+    add_paragraph(story, "所属研究领域：大模型、RAG、Agent、多模态。", body)
+    add_paragraph(story, "贡献分工：本人独立完成数据处理、模型实现、实验训练、结果分析、图表绘制和报告撰写，贡献比例 100%。", body)
     add_paragraph(story, "1. 问题介绍", h1)
     add_paragraph(
         story,
@@ -99,6 +103,17 @@ def main() -> None:
         "CNN-Transformer 先用一维卷积提取局部用电波动，再输入 Transformer 建模长期依赖，最后使用均值池化与门控融合输出预测。",
         body,
     )
+    add_paragraph(story, "结构伪代码", h2)
+    pseudocode = (
+        "Input X in R^(90 x d); "
+        "Z = GELU(Conv1D_k5(X)); "
+        "Z = GELU(Conv1D_k3(Z)); "
+        "E = TransformerEncoder(PositionalEncoding(Z)); "
+        "c = MeanPool(E) * Sigmoid(W_g E_last + b_g); "
+        "y_hat = Linear(LayerNorm(c))."
+    )
+    add_paragraph(story, pseudocode, body)
+    add_paragraph(story, "结构流程：90 天多变量输入 -> 1D CNN 局部滤波 -> 位置编码 -> Transformer 编码 -> 均值池化与末状态门控 -> 90/365 天预测。", body)
 
     add_paragraph(story, "3. 结果与分析", h1)
     story.append(build_metric_table(font_name))
@@ -106,7 +121,14 @@ def main() -> None:
     add_paragraph(
         story,
         "从结果看，90 天预测比 365 天预测更容易保持趋势和幅值稳定；长期预测需要跨季节建模，误差更大。"
-        "CNN-Transformer 通过卷积局部特征降低长期依赖学习难度，但最终性能仍受样本规模和直接多步输出难度影响。",
+        "CNN-Transformer 在 365 天长期预测上优于 LSTM，并接近 Transformer；在 90 天预测中 MSE 接近 Transformer，但 MAE 略高。"
+        "这说明卷积局部特征有助于长期趋势建模，但也可能削弱短期尖峰拟合。",
+        body,
+    )
+    add_paragraph(
+        story,
+        "CNN-Transformer 的优势来自卷积预先整合邻近日子的局部模式，以及均值池化与最后状态门控对整体趋势和最近状态的融合。"
+        "不足是月度天气变量粒度较粗、样本数量有限，模型在短期任务上容易过平滑。后续可加入逐日气象、节假日和异常用电标记。",
         body,
     )
 

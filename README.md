@@ -12,6 +12,17 @@ Each model is trained separately for 90-day and 365-day forecasting from the pre
 
 ## Setup
 
+Tested environment:
+
+- Windows 11 / PowerShell
+- Python 3.12.13
+- numpy 2.3.5
+- pandas 3.0.1
+- matplotlib 3.11.0
+- scikit-learn 1.9.0
+- torch 2.12.1
+- reportlab 4.4.9
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
