@@ -78,7 +78,7 @@ def main() -> None:
         story,
         "本项目研究家庭电力消耗预测问题。数据来自 UCI Individual Household Electric Power Consumption，"
         "原始记录以分钟为粒度。实验将分钟数据汇总为日级数据：功率与子表能耗按天求和，"
-        "电压和电流按天求平均，并补充 sub_metering_remainder 与日期周期特征。",
+        "电压和电流按天求平均，并补充 sub_metering_remainder、日期周期特征和 data.gouv / Meteo-France 92 省月度天气变量。",
         body,
     )
     add_paragraph(
@@ -129,15 +129,16 @@ def main() -> None:
     add_paragraph(story, "4. 讨论", h1)
     add_paragraph(
         story,
-        "本实验采用直接多步预测，避免递归误差累积，但要求模型一次性学习完整未来曲线。后续可加入真实气象、"
-        "节假日特征，或先分解趋势与季节项后预测残差。报告撰写使用 ChatGPT/Codex 辅助整理文字和代码结构。",
+        "本实验采用直接多步预测，避免递归误差累积，但要求模型一次性学习完整未来曲线。已加入月度天气变量，"
+        "后续可加入更细粒度的逐日气象、节假日特征，或先分解趋势与季节项后预测残差。报告撰写使用 ChatGPT/Codex 辅助整理文字和代码结构。",
         body,
     )
     add_paragraph(story, "参考文献", h1)
     add_paragraph(story, "[1] UCI Machine Learning Repository. Individual household electric power consumption.", body)
-    add_paragraph(story, "[2] Vaswani, A. et al. Attention Is All You Need. NeurIPS, 2017.", body)
-    add_paragraph(story, "[3] Hochreiter, S., Schmidhuber, J. Long Short-Term Memory. Neural Computation, 1997.", body)
-    add_paragraph(story, "[4] 课程作业说明《2026年专硕机器学习课程项目》。", body)
+    add_paragraph(story, "[2] data.gouv / Meteo-France. Donnees climatologiques de base mensuelles.", body)
+    add_paragraph(story, "[3] Vaswani, A. et al. Attention Is All You Need. NeurIPS, 2017.", body)
+    add_paragraph(story, "[4] Hochreiter, S., Schmidhuber, J. Long Short-Term Memory. Neural Computation, 1997.", body)
+    add_paragraph(story, "[5] 课程作业说明《2026年专硕机器学习课程项目》。", body)
 
     doc = SimpleDocTemplate(
         str(REPORT_DIR / "report.pdf"),

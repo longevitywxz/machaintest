@@ -2,7 +2,7 @@
 
 ## 1. 问题介绍
 
-本项目研究家庭电力消耗预测问题。数据来自 UCI Individual Household Electric Power Consumption，原始记录以分钟为粒度，包含全屋有功功率、无功功率、电压、电流以及三个子表能耗。按照课程要求，实验将分钟数据汇总为日级数据，其中 `global_active_power`、`global_reactive_power`、`sub_metering_1`、`sub_metering_2`、`sub_metering_3` 按天求和，`voltage` 和 `global_intensity` 按天求平均，并补充 `sub_metering_remainder` 与日期周期特征。
+本项目研究家庭电力消耗预测问题。数据来自 UCI Individual Household Electric Power Consumption，原始记录以分钟为粒度，包含全屋有功功率、无功功率、电压、电流以及三个子表能耗。按照课程要求，实验将分钟数据汇总为日级数据，其中 `global_active_power`、`global_reactive_power`、`sub_metering_1`、`sub_metering_2`、`sub_metering_3` 按天求和，`voltage` 和 `global_intensity` 按天求平均，并补充 `sub_metering_remainder` 与日期周期特征。外部天气信息来自 data.gouv / Meteo-France 的 92 省月度基础气象数据，按年月合并 `RR`、`NBJRR1`、`NBJRR5`、`NBJRR10`、`NBJBROU` 五个变量。
 
 预测任务为使用过去 90 天的多变量序列预测未来总有功功率曲线，分别设置 90 天短期预测和 365 天长期预测。两种预测长度分别训练模型，评价指标为 MSE 和 MAE。每个模型在 5 个随机种子下重复实验，并报告均值和标准差。
 
@@ -36,12 +36,12 @@ y_hat = Linear(LayerNorm(context))
 
 | Model | Horizon | MSE mean | MSE std | MAE mean | MAE std |
 |---|---:|---:|---:|---:|---:|
-| cnn_transformer | 90 | 131725.2016 | 4237.5402 | 284.9127 | 5.7690 |
-| cnn_transformer | 365 | 179540.6125 | 5436.1238 | 310.7817 | 2.7848 |
-| lstm | 90 | 138870.3781 | 12303.6988 | 296.1077 | 12.6983 |
-| lstm | 365 | 194343.8719 | 8947.0416 | 327.1796 | 9.0630 |
-| transformer | 90 | 124860.4469 | 5981.2597 | 283.1321 | 4.6442 |
-| transformer | 365 | 180228.6000 | 5004.4971 | 310.5392 | 5.4646 |
+| cnn_transformer | 90 | 129159.2437 | 7296.4681 | 290.4032 | 4.6883 |
+| cnn_transformer | 365 | 183649.8219 | 5895.9951 | 317.8872 | 5.9485 |
+| lstm | 90 | 133342.4484 | 5376.8680 | 287.7117 | 6.1816 |
+| lstm | 365 | 201265.6906 | 11677.7138 | 334.2870 | 10.1218 |
+| transformer | 90 | 129397.1687 | 10390.9455 | 288.8875 | 15.0631 |
+| transformer | 365 | 187903.0125 | 1407.9032 | 319.3780 | 3.9562 |
 
 预测曲线如下：
 
@@ -56,7 +56,7 @@ y_hat = Linear(LayerNorm(context))
 
 ## 4. 讨论
 
-本实验使用直接多步预测，而不是递归单步预测，因此避免了递归误差逐步累积，但要求模型一次性学习完整未来曲线。对家庭电力数据而言，日期周期特征可以提供星期和月份信息，帮助模型拟合生活规律和季节性变化。后续改进可以加入真实气象数据、节假日特征，或采用分解式预测方法先建模趋势与季节项，再预测残差。
+本实验使用直接多步预测，而不是递归单步预测，因此避免了递归误差逐步累积，但要求模型一次性学习完整未来曲线。对家庭电力数据而言，日期周期特征可以提供星期和月份信息，天气特征提供降水和雾等外部环境信息，帮助模型拟合生活规律、季节性变化和气候影响。后续改进可以加入更细粒度的逐日气象、节假日特征，或采用分解式预测方法先建模趋势与季节项，再预测残差。
 
 本报告撰写过程中使用了 ChatGPT/Codex 辅助整理文字和代码结构；模型设计、实验运行与结果分析仍需以仓库中的可复现实验输出为准。
 
@@ -64,8 +64,10 @@ y_hat = Linear(LayerNorm(context))
 
 [1] UCI Machine Learning Repository. Individual household electric power consumption. https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption
 
-[2] Vaswani, A. et al. Attention Is All You Need. NeurIPS, 2017.
+[2] data.gouv / Meteo-France. Donnees climatologiques de base mensuelles. https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-mensuelles/
 
-[3] Hochreiter, S., Schmidhuber, J. Long Short-Term Memory. Neural Computation, 1997.
+[3] Vaswani, A. et al. Attention Is All You Need. NeurIPS, 2017.
 
-[4] 课程作业说明《2026年专硕机器学习课程项目》。
+[4] Hochreiter, S., Schmidhuber, J. Long Short-Term Memory. Neural Computation, 1997.
+
+[5] 课程作业说明《2026年专硕机器学习课程项目》。

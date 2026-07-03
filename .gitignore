@@ -1,7 +1,9 @@
 data/raw/*.txt
 data/raw/*.zip
+data/raw/*.gz
 assignment.pdf
 assignment_text.txt
+individual+household+electric+power+consumption.zip
 tmp/
 __pycache__/
 .venv/

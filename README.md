@@ -33,7 +33,9 @@ The scripts also accept the typo from the assignment:
 data/raw/tes.csv
 ```
 
-If those files are missing, `prepare_data.py` downloads the UCI Individual Household Electric Power Consumption dataset and creates a reproducible daily split.
+If those files are missing, `prepare_data.py` uses `individual+household+electric+power+consumption.zip` from the repository root when present. Otherwise it downloads the UCI Individual Household Electric Power Consumption dataset and creates a reproducible daily split.
+
+Monthly weather variables are downloaded from data.gouv / Meteo-France for department 92 (`MENSQ_92_previous-1950-2024.csv.gz`) and merged by year-month. The merged columns are `RR`, `NBJRR1`, `NBJRR5`, `NBJRR10`, and `NBJBROU`.
 
 ## Run
 
@@ -53,5 +55,5 @@ Outputs:
 ## Notes
 
 - The long-horizon and short-horizon models are trained independently.
-- Daily aggregation follows the assignment: power and sub-metering variables are summed; voltage and intensity are averaged; weather-like columns are carried by first valid daily value when present.
+- Daily aggregation follows the assignment: power and sub-metering variables are summed; voltage and intensity are averaged; monthly weather columns are merged by month.
 - Missing minute-level values are handled by numeric coercion and daily interpolation.

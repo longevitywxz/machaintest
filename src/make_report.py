@@ -43,7 +43,7 @@ def main() -> None:
 
 ## 1. 问题介绍
 
-本项目研究家庭电力消耗预测问题。数据来自 UCI Individual Household Electric Power Consumption，原始记录以分钟为粒度，包含全屋有功功率、无功功率、电压、电流以及三个子表能耗。按照课程要求，实验将分钟数据汇总为日级数据，其中 `global_active_power`、`global_reactive_power`、`sub_metering_1`、`sub_metering_2`、`sub_metering_3` 按天求和，`voltage` 和 `global_intensity` 按天求平均，并补充 `sub_metering_remainder` 与日期周期特征。
+本项目研究家庭电力消耗预测问题。数据来自 UCI Individual Household Electric Power Consumption，原始记录以分钟为粒度，包含全屋有功功率、无功功率、电压、电流以及三个子表能耗。按照课程要求，实验将分钟数据汇总为日级数据，其中 `global_active_power`、`global_reactive_power`、`sub_metering_1`、`sub_metering_2`、`sub_metering_3` 按天求和，`voltage` 和 `global_intensity` 按天求平均，并补充 `sub_metering_remainder` 与日期周期特征。外部天气信息来自 data.gouv / Meteo-France 的 92 省月度基础气象数据，按年月合并 `RR`、`NBJRR1`、`NBJRR5`、`NBJRR10`、`NBJBROU` 五个变量。
 
 预测任务为使用过去 90 天的多变量序列预测未来总有功功率曲线，分别设置 90 天短期预测和 365 天长期预测。两种预测长度分别训练模型，评价指标为 MSE 和 MAE。每个模型在 5 个随机种子下重复实验，并报告均值和标准差。
 
@@ -85,7 +85,7 @@ y_hat = Linear(LayerNorm(context))
 
 ## 4. 讨论
 
-本实验使用直接多步预测，而不是递归单步预测，因此避免了递归误差逐步累积，但要求模型一次性学习完整未来曲线。对家庭电力数据而言，日期周期特征可以提供星期和月份信息，帮助模型拟合生活规律和季节性变化。后续改进可以加入真实气象数据、节假日特征，或采用分解式预测方法先建模趋势与季节项，再预测残差。
+本实验使用直接多步预测，而不是递归单步预测，因此避免了递归误差逐步累积，但要求模型一次性学习完整未来曲线。对家庭电力数据而言，日期周期特征可以提供星期和月份信息，天气特征提供降水和雾等外部环境信息，帮助模型拟合生活规律、季节性变化和气候影响。后续改进可以加入更细粒度的逐日气象、节假日特征，或采用分解式预测方法先建模趋势与季节项，再预测残差。
 
 本报告撰写过程中使用了 ChatGPT/Codex 辅助整理文字和代码结构；模型设计、实验运行与结果分析仍需以仓库中的可复现实验输出为准。
 
@@ -93,11 +93,13 @@ y_hat = Linear(LayerNorm(context))
 
 [1] UCI Machine Learning Repository. Individual household electric power consumption. https://archive.ics.uci.edu/dataset/235/individual+household+electric+power+consumption
 
-[2] Vaswani, A. et al. Attention Is All You Need. NeurIPS, 2017.
+[2] data.gouv / Meteo-France. Donnees climatologiques de base mensuelles. https://www.data.gouv.fr/fr/datasets/donnees-climatologiques-de-base-mensuelles/
 
-[3] Hochreiter, S., Schmidhuber, J. Long Short-Term Memory. Neural Computation, 1997.
+[3] Vaswani, A. et al. Attention Is All You Need. NeurIPS, 2017.
 
-[4] 课程作业说明《2026年专硕机器学习课程项目》。
+[4] Hochreiter, S., Schmidhuber, J. Long Short-Term Memory. Neural Computation, 1997.
+
+[5] 课程作业说明《2026年专硕机器学习课程项目》。
 """
     (REPORT_DIR / "report.md").write_text(content, encoding="utf-8")
     print(REPORT_DIR / "report.md")
