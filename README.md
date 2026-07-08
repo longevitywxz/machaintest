@@ -2,6 +2,8 @@
 
 Machine learning course project for multivariate household electric power consumption forecasting.
 
+GitHub repository: https://github.com/longevitywxz/machaintest
+
 The project trains and compares:
 
 - LSTM
@@ -54,6 +56,7 @@ Monthly weather variables are downloaded from data.gouv / Meteo-France for depar
 python src/prepare_data.py
 python src/train.py --horizons 90 365 --seeds 0 1 2 3 4 --epochs 30
 python src/make_report.py
+python src/make_pdf_report.py
 ```
 
 Outputs:
@@ -62,6 +65,7 @@ Outputs:
 - `outputs/metrics_summary.csv`
 - `outputs/figures/*.png`
 - `report/report.md`
+- `report/report.pdf`
 
 ## Notes
 

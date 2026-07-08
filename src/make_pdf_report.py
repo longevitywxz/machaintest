@@ -77,6 +77,7 @@ def main() -> None:
     add_paragraph(story, "姓名：魏宪正；学号：20255227057；团队人数：1 人。", body)
     add_paragraph(story, "所属研究领域：大模型、RAG、Agent、多模态。", body)
     add_paragraph(story, "贡献分工：本人独立完成数据处理、模型实现、实验训练、结果分析、图表绘制和报告撰写，贡献比例 100%。", body)
+    add_paragraph(story, "GitHub 代码链接：https://github.com/longevitywxz/machaintest", body)
     add_paragraph(story, "1. 问题介绍", h1)
     add_paragraph(
         story,

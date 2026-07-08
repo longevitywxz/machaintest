@@ -7,6 +7,7 @@
 - 团队人数：1 人
 - 所属研究领域：大模型、RAG、Agent、多模态
 - 贡献分工：本人独立完成数据处理、模型实现、实验训练、结果分析、图表绘制和报告撰写，贡献比例 100%。
+- GitHub 代码链接：https://github.com/longevitywxz/machaintest
 
 ## 1. 问题介绍
 
