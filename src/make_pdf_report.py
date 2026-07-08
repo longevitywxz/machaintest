@@ -355,6 +355,11 @@ def add_results(story: list, styles: ReportStyles, font_name: str) -> None:
     story.append(spacer(0.28))
     body(
         story,
+        "本节从 LSTM、Transformer 和本文提出的 CNN-Transformer 三种方法进行横向比较。后续页面给出了各模型预测电量 power 与真实值 Ground Truth 的曲线截图，其中蓝色曲线表示真实值，橙色曲线表示模型预测值。",
+        styles,
+    )
+    body(
+        story,
         "从结果看，90 天预测比 365 天预测更容易保持趋势和幅值稳定；长期预测需要跨季节建模，误差更大。CNN-Transformer 在 365 天长期预测上优于 LSTM，并接近 Transformer；在 90 天预测中 MSE 接近 Transformer，但 MAE 略高。",
         styles,
     )
@@ -395,7 +400,12 @@ def add_discussion(story: list, styles: ReportStyles) -> None:
     )
     body(
         story,
-        "后续改进可以加入更细粒度的逐日气象、节假日和异常用电标记，也可以采用趋势-残差分解或多尺度卷积来改善尖峰预测。本报告撰写过程中使用了 ChatGPT/Codex 辅助整理文字和代码结构；模型设计、实验运行与结果分析以仓库中的可复现实验输出为准。",
+        "后续改进可以加入更细粒度的逐日气象、节假日和异常用电标记，也可以采用趋势-残差分解或多尺度卷积来改善尖峰预测。本文提出的 CNN-Transformer 结构具有一定新颖性，即先通过卷积抽取局部用电模式，再用 Transformer 建模长期依赖；即使短期预测性能不总是最优，其原因主要在于卷积平滑会削弱尖峰拟合、样本规模有限以及天气变量粒度较粗。",
+        styles,
+    )
+    body(
+        story,
+        "工具使用说明：本报告撰写过程中使用了 ChatGPT/Codex 辅助整理文字和代码结构；模型设计、实验运行与结果分析以仓库中的可复现实验输出为准。完整参考文献列于下方，避免未标注引用。",
         styles,
     )
     section(story, "参考文献", styles)
